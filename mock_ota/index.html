@@ -1,0 +1,952 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mock OTA 机票频道</title>
+  <style>
+    :root {
+      --pink: #ff4fa3;
+      --pink-dark: #d9267a;
+      --pink-soft: #fff0f7;
+      --rose-line: #ffd3e8;
+      --ink: #17233d;
+      --muted: #68758a;
+      --soft: #fff6fb;
+      --line: #dce5f2;
+      --panel: #fff;
+      --green: #09a66d;
+      --red: #c2410c;
+      --shadow: 0 12px 34px rgba(176, 40, 110, .14);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", sans-serif;
+      color: var(--ink);
+      background: linear-gradient(180deg, #ffd9ec 0, #fff6fb 235px, #fff8fc 100%);
+    }
+    button, input, select {
+      font: inherit;
+    }
+    button {
+      border: 0;
+      cursor: pointer;
+    }
+    .topbar {
+      height: 58px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 42px;
+      background: rgba(255, 255, 255, .88);
+      border-bottom: 1px solid rgba(255, 255, 255, .8);
+      backdrop-filter: blur(12px);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 800;
+      letter-spacing: 0;
+      color: var(--pink-dark);
+      white-space: nowrap;
+    }
+    .brand-mark {
+      width: 30px;
+      height: 30px;
+      border-radius: 9px;
+      background: linear-gradient(135deg, var(--pink), #ff8cc7);
+      color: #fff;
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+    }
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      color: #3e4d63;
+      font-size: 14px;
+    }
+    .nav button {
+      background: transparent;
+      color: inherit;
+      font-weight: 700;
+      padding: 8px 0;
+    }
+    .nav button.active {
+      color: var(--pink-dark);
+      font-weight: 700;
+    }
+    .hero {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 34px 24px 18px;
+    }
+    .hero-title {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 18px;
+      color: #fff;
+      min-height: 94px;
+    }
+    .hero h1 {
+      margin: 0 0 8px;
+      font-size: 32px;
+      line-height: 1.15;
+      text-shadow: 0 4px 18px rgba(0, 56, 135, .25);
+    }
+    .hero p {
+      margin: 0;
+      color: rgba(255, 255, 255, .92);
+      font-size: 15px;
+    }
+    .service-pill {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,255,255,.28);
+      border: 1px solid rgba(255,255,255,.36);
+      border-radius: 999px;
+      padding: 9px 13px;
+      font-size: 13px;
+      white-space: nowrap;
+    }
+    .search-panel {
+      margin-top: 18px;
+      background: var(--panel);
+      border-radius: 14px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .tabs {
+      display: flex;
+      gap: 4px;
+      padding: 14px 18px 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .tab {
+      padding: 10px 18px 13px;
+      color: #45566f;
+      font-weight: 700;
+      background: transparent;
+      border-bottom: 3px solid transparent;
+    }
+    .tab.active {
+      color: var(--pink-dark);
+      border-color: var(--pink);
+    }
+    .search-grid {
+      display: grid;
+      grid-template-columns: 1fr 56px 1fr 1fr 170px;
+      gap: 12px;
+      align-items: end;
+      padding: 18px;
+    }
+    .field {
+      display: grid;
+      gap: 7px;
+    }
+    label {
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .field input, .field select {
+      height: 48px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 0 13px;
+      color: var(--ink);
+      background: #fff;
+      outline: none;
+      font-weight: 650;
+    }
+    .field input:focus, .field select:focus {
+      border-color: var(--pink);
+      box-shadow: 0 0 0 3px rgba(255, 79, 163, .14);
+    }
+    .swap {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--pink-dark);
+      font-size: 19px;
+      margin-bottom: 2px;
+    }
+    .search-btn {
+      height: 48px;
+      border-radius: 8px;
+      background: linear-gradient(180deg, #ff6fb6, #ff3f99);
+      color: #fff;
+      font-size: 17px;
+      font-weight: 800;
+      box-shadow: 0 10px 22px rgba(255, 63, 153, .26);
+    }
+    .quick-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 0 18px 18px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .quick-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .quick-tags span {
+      border: 1px solid var(--rose-line);
+      color: var(--pink-dark);
+      background: var(--pink-soft);
+      border-radius: 999px;
+      padding: 5px 10px;
+    }
+    .layout {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px 32px;
+      display: grid;
+      grid-template-columns: 250px minmax(0, 1fr);
+      gap: 16px;
+    }
+    .filter, .main-panel, .side-panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+    }
+    .filter {
+      padding: 16px;
+      height: fit-content;
+      position: sticky;
+      top: 74px;
+    }
+    .filter h2, .main-head h2, .side-panel h2 {
+      margin: 0;
+      font-size: 17px;
+    }
+    .filter-group {
+      padding: 15px 0;
+      border-top: 1px solid var(--line);
+    }
+    .filter-group:first-of-type { border-top: 0; }
+    .filter-title {
+      font-size: 13px;
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+    .check {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 8px 0;
+      color: #3f4d63;
+      font-size: 13px;
+    }
+    .check input { accent-color: var(--blue); }
+    .main-stack {
+      display: grid;
+      gap: 14px;
+    }
+    .main-panel {
+      overflow: hidden;
+    }
+    .main-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 15px 18px;
+      border-bottom: 1px solid var(--line);
+      background: #fbfdff;
+    }
+    .result-meta {
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .sortbar {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .sortbar button {
+      background: var(--pink-soft);
+      color: var(--pink-dark);
+      border-radius: 999px;
+      padding: 7px 12px;
+      font-weight: 700;
+    }
+    .sortbar button.active {
+      background: var(--pink);
+      color: #fff;
+    }
+    .flight-list {
+      display: grid;
+      gap: 0;
+    }
+    .flight-card {
+      display: grid;
+      grid-template-columns: 1.15fr 1fr 150px;
+      gap: 18px;
+      padding: 18px;
+      border-bottom: 1px solid var(--line);
+      background: #fff;
+      transition: background .18s ease, transform .18s ease;
+    }
+    .flight-card:hover {
+      background: #f8fbff;
+    }
+    .route-line {
+      display: grid;
+      grid-template-columns: 86px 1fr 86px;
+      align-items: center;
+      gap: 12px;
+    }
+    .time {
+      font-size: 24px;
+      font-weight: 850;
+      letter-spacing: 0;
+    }
+    .city {
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 3px;
+    }
+    .line {
+      height: 1px;
+      background: linear-gradient(90deg, #ffc1dd, var(--pink), #ffc1dd);
+      position: relative;
+    }
+    .line::before, .line::after {
+      content: "";
+      position: absolute;
+      top: -4px;
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: #fff;
+      border: 2px solid var(--pink);
+    }
+    .line::before { left: 0; }
+    .line::after { right: 0; }
+    .duration {
+      text-align: center;
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 8px;
+    }
+    .flight-info {
+      display: grid;
+      gap: 8px;
+      align-content: center;
+      color: #3f4d63;
+      font-size: 13px;
+    }
+    .flight-info b {
+      color: var(--ink);
+      font-size: 15px;
+    }
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .chip {
+      color: #1f7a55;
+      background: #effaf5;
+      border: 1px solid #cdeedd;
+      border-radius: 4px;
+      padding: 3px 6px;
+      font-size: 12px;
+    }
+    .price-box {
+      display: grid;
+      justify-items: end;
+      align-content: center;
+      gap: 8px;
+    }
+    .price {
+      color: var(--pink-dark);
+      font-size: 28px;
+      font-weight: 900;
+    }
+    .price small {
+      font-size: 13px;
+      font-weight: 700;
+    }
+    .stock {
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .book-btn, .cancel-btn, .mini-btn {
+      min-width: 108px;
+      height: 38px;
+      border-radius: 6px;
+      font-weight: 800;
+    }
+    .book-btn {
+      color: #fff;
+      background: var(--pink);
+    }
+    .book-btn:disabled {
+      background: #b9c3d1;
+      cursor: not-allowed;
+    }
+    .cancel-btn {
+      background: #fff2e8;
+      color: var(--red);
+      border: 1px solid #ffd6bd;
+    }
+    .mini-btn {
+      min-width: 62px;
+      height: 30px;
+      color: var(--pink-dark);
+      background: var(--pink-soft);
+      border: 1px solid var(--rose-line);
+    }
+    .mini-btn.warn {
+      color: #92400e;
+      background: #fff7ed;
+      border-color: #fed7aa;
+    }
+    .mini-btn.danger {
+      color: #b42318;
+      background: #fff1f2;
+      border-color: #fecdd3;
+    }
+    .action-row {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .book-panel {
+      display: none;
+      grid-column: 1 / -1;
+      margin-top: -6px;
+      padding: 0 18px 18px;
+    }
+    .book-panel.active { display: block; }
+    .book-inner {
+      display: grid;
+      grid-template-columns: 1fr 120px;
+      gap: 10px;
+      padding: 13px;
+      border: 1px solid var(--rose-line);
+      background: #fff8fc;
+      border-radius: 8px;
+    }
+    .book-inner input {
+      height: 40px;
+      border: 1px solid var(--rose-line);
+      border-radius: 6px;
+      padding: 0 10px;
+      outline: none;
+    }
+    .side-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    .side-panel {
+      overflow: hidden;
+    }
+    .side-panel h2 {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--line);
+      background: #fbfdff;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    th, td {
+      border-bottom: 1px solid var(--line);
+      padding: 10px;
+      text-align: left;
+      vertical-align: top;
+    }
+    th {
+      color: #526178;
+      background: #fbfdff;
+      font-weight: 800;
+    }
+    .scroll {
+      max-height: 260px;
+      overflow: auto;
+    }
+    .muted { color: var(--muted); font-size: 12px; }
+    .status {
+      min-height: 42px;
+      padding: 12px 18px;
+      color: var(--muted);
+      font-size: 13px;
+      background: #fbfdff;
+    }
+    .view-panel { display: none; }
+    .view-panel.active { display: block; }
+    .ok { color: #087a52; }
+    .error { color: #b42318; }
+    @media (max-width: 980px) {
+      .topbar { padding: 0 16px; }
+      .nav { display: none; }
+      .hero { padding: 22px 14px 14px; }
+      .hero-title { align-items: flex-start; flex-direction: column; }
+      .search-grid { grid-template-columns: 1fr; }
+      .swap { display: none; }
+      .quick-row { align-items: flex-start; flex-direction: column; }
+      .layout { grid-template-columns: 1fr; padding: 0 14px 24px; }
+      .filter { position: static; }
+      .flight-card { grid-template-columns: 1fr; }
+      .price-box { justify-items: stretch; }
+      .book-btn, .cancel-btn { width: 100%; }
+      .side-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><span class="brand-mark">机</span><span>Mock OTA 机票</span></div>
+    <nav class="nav">
+      <button class="active" data-view="flights">机票</button>
+      <button data-view="status">航班动态</button>
+      <button data-view="specials">特价票</button>
+      <button data-view="orders">订单</button>
+      <button data-view="logs">接口日志</button>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <div class="hero-title">
+      <div>
+        <h1>机票查询与预订测试</h1>
+        <p>独立渠道前台，验证政策展示、下单、取消和订单回流。</p>
+      </div>
+      <div class="service-pill">Mock OTA Sandbox · 内部联调</div>
+    </div>
+
+    <div class="search-panel">
+      <div class="tabs">
+        <button class="tab active" data-view="flights">国内/国际机票</button>
+        <button class="tab" data-view="specials">特价机票</button>
+        <button class="tab" data-view="status">航班动态</button>
+      </div>
+      <div class="search-grid">
+        <div class="field">
+          <label for="fromCity">出发城市</label>
+          <input id="fromCity" value="北京">
+        </div>
+        <button class="swap" id="swapCities" title="交换城市">⇄</button>
+        <div class="field">
+          <label for="toCity">到达城市</label>
+          <input id="toCity" value="济州">
+        </div>
+        <div class="field">
+          <label for="departDate">出发日期</label>
+          <input id="departDate" type="date" value="2026-07-15">
+        </div>
+        <button class="search-btn" id="searchFlights">搜索</button>
+      </div>
+      <div class="quick-row">
+        <div class="quick-tags">
+          <span>单程</span>
+          <span>仅看有库存</span>
+          <span>按价格排序</span>
+          <span>Mock OTA 回流测试</span>
+        </div>
+        <div id="status" class="muted">等待主系统发布政策。</div>
+      </div>
+    </div>
+  </section>
+
+  <main class="layout">
+    <aside class="filter">
+      <h2>筛选</h2>
+      <div class="filter-group">
+        <div class="filter-title">航司</div>
+        <label class="check"><input type="checkbox" checked> 全部航司</label>
+        <label class="check"><input type="checkbox"> 9C 春秋</label>
+        <label class="check"><input type="checkbox"> HO 吉祥</label>
+        <label class="check"><input type="checkbox"> 7C 济州</label>
+      </div>
+      <div class="filter-group">
+        <div class="filter-title">出发时间</div>
+        <label class="check"><input type="checkbox" checked> 全天</label>
+        <label class="check"><input type="checkbox"> 上午</label>
+        <label class="check"><input type="checkbox"> 下午</label>
+        <label class="check"><input type="checkbox"> 晚间</label>
+      </div>
+      <div class="filter-group">
+        <div class="filter-title">联调状态</div>
+        <label class="check"><input type="checkbox" checked> 已上架政策</label>
+        <label class="check"><input type="checkbox" checked> 可模拟下单</label>
+        <label class="check"><input type="checkbox"> 只看测试航线</label>
+      </div>
+    </aside>
+
+    <div class="main-stack">
+      <section class="main-panel view-panel active" data-panel="flights">
+        <div class="main-head">
+          <div>
+            <h2>航班列表</h2>
+            <div class="result-meta" id="policyCount">0 条政策</div>
+          </div>
+          <div class="sortbar">
+            <button class="active" id="refreshPolicies">刷新政策</button>
+            <button id="refreshOrders">订单</button>
+            <button id="refreshLogs">日志</button>
+          </div>
+        </div>
+        <div class="flight-list" id="policyGrid"></div>
+        <div class="status" id="listStatus">暂无航班。</div>
+      </section>
+
+      <section class="main-panel view-panel" data-panel="status">
+        <div class="main-head">
+          <div>
+            <h2>航班动态</h2>
+            <div class="result-meta" id="statusCount">0 条动态</div>
+          </div>
+          <div class="sortbar">
+            <button class="active" id="refreshFlightStatus">刷新动态</button>
+          </div>
+        </div>
+        <div class="flight-list" id="flightStatusGrid"></div>
+        <div class="status" id="flightStatusText">暂无航班动态。</div>
+      </section>
+
+      <section class="main-panel view-panel" data-panel="specials">
+        <div class="main-head">
+          <div>
+            <h2>特价票</h2>
+            <div class="result-meta" id="specialCount">0 条特价</div>
+          </div>
+          <div class="sortbar">
+            <button class="active" id="refreshSpecials">刷新特价</button>
+          </div>
+        </div>
+        <div class="flight-list" id="specialGrid"></div>
+        <div class="status" id="specialStatus">暂无特价票。</div>
+      </section>
+
+      <div class="side-grid">
+        <section class="side-panel">
+          <h2>模拟订单</h2>
+          <div class="scroll">
+            <table>
+              <thead><tr><th>订单</th><th>航线</th><th>状态/票号</th><th>操作</th></tr></thead>
+              <tbody id="ordersBody"></tbody>
+            </table>
+          </div>
+        </section>
+        <section class="side-panel">
+          <h2>接口日志</h2>
+          <div class="scroll">
+            <table>
+              <thead><tr><th>时间</th><th>动作</th><th>结果</th></tr></thead>
+              <tbody id="logsBody"></tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const $ = id => document.getElementById(id);
+    const API_BASE = location.pathname.startsWith("/mock-ota") ? "/mock-ota" : "";
+    let policyRows = [];
+    let activeView = "flights";
+
+    function setStatus(text, cls = "") {
+      $("status").className = `muted ${cls}`;
+      $("status").textContent = text;
+      $("listStatus").className = `status ${cls}`;
+      $("listStatus").textContent = text;
+    }
+
+    async function api(path, options = {}) {
+      const res = await fetch(`${API_BASE}${path}`, {
+        cache: "no-store",
+        headers: { "Content-Type": "application/json", ...(options.headers || {}) },
+        ...options
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || data.ok === false) throw new Error(data.error || `HTTP ${res.status}`);
+      return data;
+    }
+
+    function splitRoute(route = "") {
+      const [from = "-", to = "-"] = String(route).split("-");
+      return [from, to];
+    }
+
+    function fakeTime(index) {
+      const hour = 7 + (index * 2) % 13;
+      const minute = index % 2 ? "35" : "10";
+      const arrive = Math.min(23, hour + 2 + (index % 3));
+      return [`${String(hour).padStart(2, "0")}:${minute}`, `${String(arrive).padStart(2, "0")}:${minute}`];
+    }
+
+    function flightCard(row, index) {
+      const disabled = Number(row.available || 0) <= 0 ? "disabled" : "";
+      const [from, to] = splitRoute(row.route);
+      const [depart, arrive] = fakeTime(index);
+      const panelId = `book-${String(row.policy_id).replace(/[^a-zA-Z0-9_-]/g, "-")}`;
+      return `
+        <article class="flight-card">
+          <div>
+            <div class="route-line">
+              <div><div class="time">${depart}</div><div class="city">${from}</div></div>
+              <div><div class="line"></div><div class="duration">直飞 · 约${2 + index % 3}小时</div></div>
+              <div><div class="time">${arrive}</div><div class="city">${to}</div></div>
+            </div>
+          </div>
+          <div class="flight-info">
+            <b>${row.airline || "-"} ${row.flight_no || ""}</b>
+            <span>${row.departure_date || "-"} · ${row.cabin || "-"}舱 · 来源政策 ${row.policy_id}</span>
+            <div class="chips">
+              <span class="chip">${row.status || "销售中"}</span>
+              <span class="chip">剩余 ${row.available}/${row.inventory}</span>
+              <span class="chip">订单回流测试</span>
+            </div>
+          </div>
+          <div class="price-box">
+            <div class="price"><small>¥</small>${row.sale_price || "-"}</div>
+            <div class="stock">有效期 ${row.valid_from || "-"} 至 ${row.valid_to || "-"}</div>
+            <button class="book-btn" ${disabled} data-toggle-book="${panelId}">预订</button>
+          </div>
+          <div class="book-panel" id="${panelId}">
+            <div class="book-inner">
+              <input id="p-${row.policy_id}" value="测试旅客" aria-label="旅客姓名">
+              <button class="book-btn" ${disabled} data-order="${row.policy_id}">确认下单</button>
+            </div>
+          </div>
+        </article>
+      `;
+    }
+
+    function statusCard(row, index) {
+      const [from, to] = splitRoute(row.route);
+      const [depart, arrive] = fakeTime(index);
+      const delay = Number(row.delay_minutes || 0);
+      const statusClass = row.status === "取消" ? "danger" : row.status === "延误" ? "warn" : "";
+      return `
+        <article class="flight-card">
+          <div>
+            <div class="route-line">
+              <div><div class="time">${depart}</div><div class="city">${from}</div></div>
+              <div><div class="line"></div><div class="duration">动态接口 · ${row.updated_at || "待更新"}</div></div>
+              <div><div class="time">${arrive}</div><div class="city">${to}</div></div>
+            </div>
+          </div>
+          <div class="flight-info">
+            <b>${row.airline || "-"} ${row.flight_no || ""}</b>
+            <span>${row.departure_date || "-"} · 登机口 ${row.gate || "-"} · 来源政策 ${row.policy_id}</span>
+            <div class="chips">
+              <span class="chip">${row.status || "计划"}</span>
+              <span class="chip">延误 ${delay} 分钟</span>
+              <span class="chip">${row.reason || "可模拟更新"}</span>
+            </div>
+          </div>
+          <div class="price-box">
+            <div class="stock">航班动态可落库测试</div>
+            <div class="action-row">
+              <button class="mini-btn" data-flight-status="${row.key}" data-status-value="准点">准点</button>
+              <button class="mini-btn warn" data-flight-status="${row.key}" data-status-value="延误">延误</button>
+              <button class="mini-btn danger" data-flight-status="${row.key}" data-status-value="取消">取消</button>
+              <button class="mini-btn" data-flight-status="${row.key}" data-status-value="恢复">恢复</button>
+            </div>
+          </div>
+        </article>
+      `;
+    }
+
+    function renderPolicies(rows) {
+      $("policyCount").textContent = `${rows.length} 条政策`;
+      $("policyGrid").innerHTML = rows.length
+        ? rows.map(flightCard).join("")
+        : "<div class='status'>暂无可售航班，请先从主系统发布政策。</div>";
+    }
+
+    function renderFlightStatus(rows) {
+      $("statusCount").textContent = `${rows.length} 条动态`;
+      $("flightStatusGrid").innerHTML = rows.length
+        ? rows.map(statusCard).join("")
+        : "<div class='status'>暂无航班动态，请先从主系统发布政策。</div>";
+      $("flightStatusText").textContent = rows.length ? `航班动态刷新完成：${rows.length} 条` : "暂无航班动态。";
+      $("flightStatusText").className = `status ${rows.length ? "ok" : ""}`;
+    }
+
+    function renderSpecials(rows) {
+      $("specialCount").textContent = `${rows.length} 条特价`;
+      $("specialGrid").innerHTML = rows.length
+        ? rows.map((row, index) => flightCard({ ...row, status: `${row.status || "销售中"} · ${row.special_reason || "特价"}` }, index)).join("")
+        : "<div class='status'>暂无符合特价规则的政策。</div>";
+      $("specialStatus").textContent = rows.length ? `特价票刷新完成：${rows.length} 条` : "暂无特价票。";
+      $("specialStatus").className = `status ${rows.length ? "ok" : ""}`;
+    }
+
+    function switchView(view) {
+      activeView = view;
+      document.querySelectorAll(".nav button").forEach(btn => btn.classList.toggle("active", btn.dataset.view === view));
+      document.querySelectorAll(".tabs .tab").forEach(btn => btn.classList.toggle("active", btn.dataset.view === view));
+      document.querySelectorAll("[data-panel]").forEach(panel => panel.classList.toggle("active", panel.dataset.panel === view));
+      if (view === "flights") loadPolicies();
+      if (view === "status") loadFlightStatus();
+      if (view === "specials") loadSpecials();
+      if (view === "orders") {
+        loadOrders();
+        document.querySelector(".side-grid")?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+      if (view === "logs") {
+        loadLogs();
+        document.querySelector(".side-grid")?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }
+
+    async function loadPolicies() {
+      try {
+        const data = await api("/api/policies");
+        policyRows = data.rows || [];
+        renderPolicies(policyRows);
+        setStatus(`政策刷新完成：${data.count} 条`, "ok");
+      } catch (err) {
+        setStatus(`政策刷新失败：${err.message}`, "error");
+      }
+    }
+
+    async function loadFlightStatus() {
+      try {
+        const data = await api("/api/flight-status");
+        renderFlightStatus(data.rows || []);
+      } catch (err) {
+        $("flightStatusText").textContent = `航班动态刷新失败：${err.message}`;
+        $("flightStatusText").className = "status error";
+      }
+    }
+
+    async function loadSpecials() {
+      try {
+        const data = await api("/api/special-fares");
+        renderSpecials(data.rows || []);
+      } catch (err) {
+        $("specialStatus").textContent = `特价票刷新失败：${err.message}`;
+        $("specialStatus").className = "status error";
+      }
+    }
+
+    async function loadOrders() {
+      const data = await api("/api/orders");
+      $("ordersBody").innerHTML = data.rows.map(row => `
+        <tr>
+          <td>${row.order_id}<br><span class="muted">${row.passenger || ""}</span></td>
+          <td>${row.route || "-"}<br><span class="muted">¥${row.amount || ""}</span></td>
+          <td>${row.status || "-"}${row.ticket_no ? `<br><span class="muted">票号 ${row.ticket_no}</span>` : ""}${row.pnr ? `<br><span class="muted">PNR ${row.pnr}</span>` : ""}</td>
+          <td>${["已取消", "已出票"].includes(row.status) ? "" : `<button class="cancel-btn" data-cancel="${row.order_id}">取消</button>`}</td>
+        </tr>
+      `).join("") || "<tr><td colspan='4' class='muted'>暂无订单</td></tr>";
+    }
+
+    async function loadLogs() {
+      const data = await api("/api/logs");
+      $("logsBody").innerHTML = data.rows.map(row => `
+        <tr>
+          <td>${row.time}<br><span class="muted">${row.trace_id}</span></td>
+          <td>${row.action}<br><span class="muted">${row.detail || ""}</span></td>
+          <td>${row.result}</td>
+        </tr>
+      `).join("") || "<tr><td colspan='3' class='muted'>暂无日志</td></tr>";
+    }
+
+    async function createOrder(policyId) {
+      const passenger = document.getElementById(`p-${policyId}`)?.value || "测试旅客";
+      setStatus("正在提交模拟订单...");
+      const data = await api("/api/orders/create", {
+        method: "POST",
+        body: JSON.stringify({ policy_id: policyId, passenger, quantity: 1 })
+      });
+      setStatus(`下单成功并回调主系统：${data.order.order_id}`, "ok");
+      await Promise.all([loadPolicies(), loadOrders(), loadLogs()]);
+    }
+
+    async function cancelOrder(orderId) {
+      setStatus("正在取消订单...");
+      const data = await api("/api/orders/cancel", {
+        method: "POST",
+        body: JSON.stringify({ order_id: orderId })
+      });
+      setStatus(`取消成功并回调主系统：${data.order.order_id}`, "ok");
+      await Promise.all([loadPolicies(), loadOrders(), loadLogs()]);
+    }
+
+    async function updateFlightStatus(key, status) {
+      const payload = { key, status };
+      if (status === "延误") payload.delay_minutes = 30;
+      const data = await api("/api/flight-status/update", {
+        method: "POST",
+        body: JSON.stringify(payload)
+      });
+      $("flightStatusText").textContent = `航班动态已更新：${data.row.status}`;
+      $("flightStatusText").className = "status ok";
+      await Promise.all([loadFlightStatus(), loadLogs()]);
+    }
+
+    function filterBySearch() {
+      const from = $("fromCity").value.trim().toUpperCase();
+      const to = $("toCity").value.trim().toUpperCase();
+      const rows = policyRows.filter(row => {
+        const route = String(row.route || "").toUpperCase();
+        return (!from || route.includes(from) || from.includes(route.split("-")[0] || "")) &&
+          (!to || route.includes(to) || to.includes(route.split("-")[1] || ""));
+      });
+      renderPolicies(rows.length ? rows : policyRows);
+      setStatus(rows.length ? `搜索完成：${rows.length} 条` : "未匹配到城市，已显示全部测试政策。", rows.length ? "ok" : "");
+    }
+
+    document.addEventListener("click", async event => {
+      const panelId = event.target.dataset.toggleBook;
+      const orderPolicy = event.target.dataset.order;
+      const cancelOrderId = event.target.dataset.cancel;
+      const flightStatusKey = event.target.dataset.flightStatus;
+      const statusValue = event.target.dataset.statusValue;
+      const view = event.target.dataset.view;
+      try {
+        if (view) switchView(view);
+        if (panelId) {
+          document.querySelectorAll(".book-panel").forEach(panel => panel.classList.remove("active"));
+          document.getElementById(panelId)?.classList.add("active");
+        }
+        if (orderPolicy) await createOrder(orderPolicy);
+        if (cancelOrderId) await cancelOrder(cancelOrderId);
+        if (flightStatusKey) await updateFlightStatus(flightStatusKey, statusValue);
+      } catch (err) {
+        setStatus(err.message, "error");
+        await loadLogs().catch(() => {});
+      }
+    });
+
+    $("swapCities").addEventListener("click", () => {
+      const from = $("fromCity").value;
+      $("fromCity").value = $("toCity").value;
+      $("toCity").value = from;
+    });
+    $("searchFlights").addEventListener("click", filterBySearch);
+    $("refreshPolicies").addEventListener("click", loadPolicies);
+    $("refreshFlightStatus").addEventListener("click", loadFlightStatus);
+    $("refreshSpecials").addEventListener("click", loadSpecials);
+    $("refreshOrders").addEventListener("click", loadOrders);
+    $("refreshLogs").addEventListener("click", loadLogs);
+
+    Promise.all([loadPolicies(), loadFlightStatus(), loadSpecials(), loadOrders(), loadLogs()]).catch(err => setStatus(err.message, "error"));
+  </script>
+</body>
+</html>

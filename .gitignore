@@ -1,0 +1,96 @@
+# macOS
+.DS_Store
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+
+# Local temp and test artifacts
+.tmp_daily/
+*.tmp
+*.cache
+
+# Logs
+logs/
+*.log
+.service_8765.log
+manual_start.log
+service_launchd.log
+
+# Generated outputs and reports
+outputs/
+!outputs/
+outputs/*
+!outputs/sales_strategy_all/
+outputs/sales_strategy_all/*
+!outputs/sales_strategy_all/README.md
+!outputs/sales_strategy_all/route_strategy.csv
+!outputs/sales_strategy_all/bucket_detail.csv
+!outputs/sales_strategy_all/route_airline_summary.csv
+!outputs/sales_strategy_all/file_manifest.csv
+!outputs/sales_strategy_all/metadata.json
+工作日记.docx
+
+# Project manual recovery archives
+versions/
+版本与恢复/
+
+# Environment, secrets, credentials
+.env
+.env.*
+*.pem
+*.key
+*.p12
+*.crt
+*.cer
+*secret*
+*token*
+*credential*
+*credentials*
+
+# Runtime data JSON
+audit_logs.json
+execution_tasks.json
+strategy_execution_tasks.json
+automation_jobs.json
+inventory_positions.json
+operation_center.json
+route_schedule_cache.json
+access_control.json
+
+# Uploads and user-provided source files
+uploads/
+uploaded_files/
+mock_ota/data/*
+!mock_ota/data/.gitkeep
+*.xls
+*.xlsx
+*.xlsm
+*.csv
+*.tsv
+
+# Keep the repository's explicitly synthetic demo fixtures.
+!outputs/sales_strategy_all/route_strategy.csv
+!outputs/sales_strategy_all/bucket_detail.csv
+!outputs/sales_strategy_all/route_airline_summary.csv
+!outputs/sales_strategy_all/file_manifest.csv
+
+# Local databases
+*.db
+*.sqlite
+*.sqlite3
+
+# Large/generated documents and binary exports
+*.pdf
+*.docx
+*.pptx
+*.zip
+*.tar
+*.tar.gz
+*.gz
+
+# Browser/download artifacts
+*.download
+/com.airline-sales-strategy.local.plist

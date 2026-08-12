@@ -1,0 +1,15 @@
+{
+  "source": {
+    "label": "人工合成演示数据"
+  },
+  "metrics": {
+    "ticketSourceRows": 210,
+    "ticketValidRows": 210,
+    "routeCount": 2,
+    "amountTotal": 232800
+  },
+  "dateRange": {
+    "start": "2026-01-01",
+    "end": "2026-03-31"
+  }
+}
