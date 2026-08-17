@@ -4,6 +4,8 @@
 
 一个由真实航空销售经验驱动、与 AI 协作开发的本地决策与执行原型：把航线经营数据转化为销售节奏、价格窗口、库存预警和需要人工确认的执行任务。
 
+[在线查看项目介绍](https://yglaodeng.github.io/airline-sales-intelligence/) · [查看源码](https://github.com/yglaodeng/airline-sales-intelligence)
+
 ![航空销售智能执行平台运营驾驶舱](./docs/dashboard.jpg)
 
 ## 30 秒了解项目
