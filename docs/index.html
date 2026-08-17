@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#081422">
+  <meta name="description" content="与老登和 AI 协作完成的航空销售智能执行平台，覆盖航线策略、销售节奏、库存预警与 Mock OTA 模拟验证。">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="航空销售智能执行平台 | 与老登">
+  <meta property="og:description" content="把真实航空销售经验，变成能运行、能验证的软件原型。">
+  <meta property="og:image" content="https://yglaodeng.github.io/airline-sales-intelligence/social-preview.jpg">
+  <meta property="og:url" content="https://yglaodeng.github.io/airline-sales-intelligence/">
+  <meta name="twitter:card" content="summary_large_image">
+  <title>航空销售智能执行平台 | 与老登</title>
+  <link rel="icon" type="image/jpeg" href="./social-preview.jpg">
+  <link rel="preload" href="./airport-operations-1200.webp" as="image" type="image/webp" imagesrcset="./airport-operations-640.webp 640w, ./airport-operations-1200.webp 1200w" imagesizes="(max-width: 900px) calc(100vw - 32px), 50vw">
+  <link rel="stylesheet" href="./styles.css">
+  <script src="./script.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">跳到主要内容</a>
+
+  <header class="site-header">
+    <nav class="nav-shell" aria-label="主导航">
+      <a class="brand" href="#top">
+        <span class="brand-mark" aria-hidden="true">与</span>
+        <span>与老登</span>
+      </a>
+      <div class="nav-links">
+        <a href="#product">真实系统</a>
+        <a href="#boundary">功能边界</a>
+        <a class="nav-cta" href="https://github.com/yglaodeng/airline-sales-intelligence">查看源码</a>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main-content">
+    <section class="hero section-shell" id="top">
+      <div class="hero-copy">
+        <p class="eyebrow">航空业务经验 × AI 协作开发</p>
+        <h1>把航空销售经验，做成真正的软件</h1>
+        <p class="hero-summary">从航线策略到库存预警，一套由真实业务经验驱动的本地系统原型。</p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="https://github.com/yglaodeng/airline-sales-intelligence">查看源码</a>
+          <a class="button button-secondary" href="#boundary">了解边界</a>
+        </div>
+      </div>
+      <figure class="hero-media">
+        <picture>
+          <source type="image/webp" srcset="./airport-operations-640.webp 640w, ./airport-operations-1200.webp 1200w" sizes="(max-width: 900px) calc(100vw - 32px), 50vw">
+          <img src="./airport-operations.jpg" width="1672" height="941" alt="夜间机场跑道与航空器的运营氛围画面">
+        </picture>
+      </figure>
+    </section>
+
+    <section class="story section-shell reveal" aria-labelledby="story-title">
+      <div class="story-copy">
+        <h2 id="story-title">不会写代码，也能把业务说清楚</h2>
+        <p>我是航空从业者，不是程序员。我把航线经营、销售节奏和库存风险逐项讲给 AI，再用真实操作和隔离测试反复校正。</p>
+      </div>
+      <figure class="story-media">
+        <picture>
+          <source type="image/webp" srcset="./yu-laodeng-banner-640.webp 640w, ./yu-laodeng-banner-1200.webp 1200w" sizes="(max-width: 700px) calc(100vw - 32px), 55vw">
+          <img src="./yu-laodeng-banner.jpg" width="2172" height="724" loading="lazy" alt="与老登品牌画面，一位航空从业者在电脑前与 AI 协作">
+        </picture>
+      </figure>
+    </section>
+
+    <section class="capabilities section-shell reveal" aria-labelledby="capabilities-title">
+      <p class="eyebrow">从判断到执行</p>
+      <h2 id="capabilities-title">围绕一条真实运营主线</h2>
+      <div class="capability-grid">
+        <article class="capability capability-wide">
+          <span class="capability-label">航线经营</span>
+          <h3>读取销售数据，形成航线策略</h3>
+          <p>识别主卖、高价和放量窗口，把经验判断转化为可回看的策略结果。</p>
+        </article>
+        <article class="capability capability-compact capability-accent">
+          <span class="capability-label">销售节奏</span>
+          <h3>按起飞周期组织动作</h3>
+          <p>围绕 D-N 到 D-1 的窗口安排价格、放量和复盘。</p>
+        </article>
+        <article class="capability capability-compact capability-pattern">
+          <span class="capability-label">风险控制</span>
+          <h3>跟踪成本、售价与库存</h3>
+          <p>在执行前识别库存压力、价格风险和保护边界。</p>
+        </article>
+        <article class="capability capability-wide">
+          <span class="capability-label">人工确认</span>
+          <h3>AI 给建议，人决定是否执行</h3>
+          <p>策略进入任务池后必须经过人工确认，避免自动改动真实业务。</p>
+        </article>
+        <article class="capability capability-visual">
+          <picture>
+            <source type="image/webp" srcset="./dashboard-640.webp 640w, ./dashboard-1200.webp 1200w" sizes="(max-width: 700px) calc(100vw - 32px), 50vw">
+            <img src="./dashboard.jpg" width="1280" height="720" loading="lazy" alt="航空销售智能执行平台运营驾驶舱界面">
+          </picture>
+          <div class="capability-visual-copy">
+            <span class="capability-label">Mock OTA</span>
+            <h3>在隔离沙箱验证订单闭环</h3>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="product section-shell reveal" id="product" aria-labelledby="product-title">
+      <div class="section-heading">
+        <h2 id="product-title">这是系统真实页面，不是概念图</h2>
+        <p>公开版本包含合成演示数据，可查看策略、销售模型、库存预警、运营台账和权限入口。</p>
+      </div>
+      <figure class="product-frame">
+        <picture>
+          <source type="image/webp" srcset="./dashboard-640.webp 640w, ./dashboard-1200.webp 1200w" sizes="(max-width: 700px) calc(100vw - 32px), 1000px">
+          <img src="./dashboard.jpg" width="1280" height="720" loading="lazy" alt="航空销售智能执行平台的真实运营驾驶舱截图">
+        </picture>
+        <figcaption>运营驾驶舱使用合成演示数据，不包含真实订单、账号或业务文件。</figcaption>
+      </figure>
+    </section>
+
+    <section class="workflow section-shell reveal" aria-labelledby="workflow-title">
+      <h2 id="workflow-title">一条可追踪的验证路径</h2>
+      <div class="workflow-grid">
+        <article>
+          <h3>读取数据</h3>
+          <p>销售文件、系统已有数据或本地 Excel 建立分析基础。</p>
+        </article>
+        <article>
+          <h3>形成策略</h3>
+          <p>输出销售窗口、库存风险、价格建议和执行条件。</p>
+        </article>
+        <article>
+          <h3>人工确认</h3>
+          <p>任何执行动作都先由用户确认，保留操作边界。</p>
+        </article>
+        <article>
+          <h3>隔离验证</h3>
+          <p>通过 Mock OTA 检查政策、订单、取消和库存回流。</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="boundary section-shell reveal" id="boundary" aria-labelledby="boundary-title">
+      <div class="section-heading">
+        <h2 id="boundary-title">能做什么，也明确不能做什么</h2>
+        <p>公开展示不等于生产系统。边界写清楚，才方便真实交流和继续验证。</p>
+      </div>
+      <div class="boundary-columns">
+        <article>
+          <h3>当前已验证</h3>
+          <ul>
+            <li>航线策略与销售周期分析</li>
+            <li>库存、成本、售价和风险预警</li>
+            <li>运营台账与权限入口</li>
+            <li>Mock OTA 政策和订单模拟</li>
+          </ul>
+        </article>
+        <article>
+          <h3>当前未连接</h3>
+          <ul>
+            <li>真实 OTA、支付或出票渠道</li>
+            <li>生产账号、密钥和业务数据库</li>
+            <li>无人值守的自主业务决策</li>
+            <li>面向公网的生产级安全部署</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="closing section-shell reveal" aria-labelledby="closing-title">
+      <div>
+        <h2 id="closing-title">真实经验，继续公开验证</h2>
+        <p>如果这个项目对你有启发，可以查看源码、给项目一个 Star，或通过 Issue 交流。</p>
+      </div>
+      <div class="closing-actions">
+        <a class="button button-primary" href="https://github.com/yglaodeng/airline-sales-intelligence">查看源码</a>
+        <a class="button button-secondary" href="https://github.com/yglaodeng/airline-sales-intelligence/issues">提交 Issue</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="section-shell footer-inner">
+      <p>与老登：航空从业者与 AI 一起做真实软件。</p>
+      <a href="https://github.com/yglaodeng">GitHub 主页</a>
+    </div>
+  </footer>
+</body>
+</html>
