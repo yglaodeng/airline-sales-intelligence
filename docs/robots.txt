@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://yglaodeng.github.io/airline-sales-intelligence/sitemap.xml
