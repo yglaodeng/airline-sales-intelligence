@@ -69,7 +69,7 @@ python3 tests/airline_full_selftest.py
 
 ## 验证状态
 
-公开副本发布前使用隔离数据完成后端回归和页面操作核查。具体测试结果以仓库最新提交和发布说明为准。
+公开版本 `v0.1.0` 发布前使用隔离数据完成完整自测，142/142 项通过；项目介绍页的 Lighthouse 四项评分均为 100。详见 [发布说明](https://github.com/yglaodeng/airline-sales-intelligence/releases/tag/v0.1.0)。
 
 ## 许可
 
