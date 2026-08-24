@@ -6,7 +6,7 @@
 
 **English:** A local-first airline sales and revenue-management prototype for sales planning, inventory alerts, approval-gated execution, and Mock OTA validation.
 
-[在线查看项目介绍](https://yglaodeng.github.io/airline-sales-intelligence/) · [查看源码](https://github.com/yglaodeng/airline-sales-intelligence)
+[English documentation](./README.en.md) · [在线查看项目介绍](https://yglaodeng.github.io/airline-sales-intelligence/) · [查看源码](https://github.com/yglaodeng/airline-sales-intelligence)
 
 ![航空销售智能执行平台运营驾驶舱](./docs/dashboard.jpg)
 
@@ -75,4 +75,4 @@ python3 tests/airline_full_selftest.py
 
 ## 许可
 
-当前仓库用于公开展示和学习参考，暂未附加开源许可证。
+本项目采用 [MIT License](./LICENSE)。参与前请阅读 [贡献指南](./CONTRIBUTING.md)，计划中的工作见 [Roadmap](./ROADMAP.md)。
