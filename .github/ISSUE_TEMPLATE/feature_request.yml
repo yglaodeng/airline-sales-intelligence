@@ -1,0 +1,25 @@
+name: Feature request
+description: Suggest a testable airline sales or revenue-management improvement
+title: "[Feature]: "
+labels: [enhancement]
+body:
+  - type: textarea
+    id: scenario
+    attributes:
+      label: Business scenario
+      description: Describe the airline sales or revenue-management problem without confidential data.
+    validations:
+      required: true
+  - type: textarea
+    id: outcome
+    attributes:
+      label: Expected outcome
+    validations:
+      required: true
+  - type: textarea
+    id: boundary
+    attributes:
+      label: Data and execution boundaries
+      description: Explain what must remain synthetic, local, or approval-gated.
+    validations:
+      required: true
