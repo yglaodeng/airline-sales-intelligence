@@ -10,6 +10,16 @@
 
 ![航空销售智能执行平台运营驾驶舱](./docs/dashboard.jpg)
 
+## 第41集：全功能英文讲解
+
+29 分钟英文长片 **Aviation Intelligence: How Every Function Connects** 按真实业务顺序，从数据接入、航线决策、销售计划和库存，讲到订单、出票、售后、资金、利润与最终验收。
+
+[![第41集英文版封面](./docs/video/episode-41-cover-en.jpg)](./docs/video/episode-41-aviation-intelligence-full-system-en.mp4)
+
+[观看或下载英文视频](./docs/video/episode-41-aviation-intelligence-full-system-en.mp4) · [英文文稿](./docs/video/episode-41-english-transcript.md) · [英文字幕](./docs/video/episode-41-english-captions.srt)
+
+视频使用脱敏演示记录，并区分本地已实现流程、模拟接口验证和仍需外部生产平台联调的能力。
+
 ## 30 秒了解项目
 
 - **面向谁：** 航空销售、航线运营、库存与收益管理从业者，以及关注 AI 如何承接真实业务经验的人

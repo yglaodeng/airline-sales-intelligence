@@ -6,6 +6,16 @@ A local-first airline revenue-management and sales-intelligence prototype built 
 
 ![Airline sales intelligence operations dashboard](./docs/dashboard.jpg)
 
+## Episode 41: full-system English walkthrough
+
+The 29-minute video **Aviation Intelligence: How Every Function Connects** follows the operating chain from data intake, route decisions, sales planning, and inventory through orders, ticketing, after-sales service, cash, profit, and final acceptance.
+
+[![Episode 41 English video cover](./docs/video/episode-41-cover-en.jpg)](./docs/video/episode-41-aviation-intelligence-full-system-en.mp4)
+
+[Watch or download the video](./docs/video/episode-41-aviation-intelligence-full-system-en.mp4) · [English transcript](./docs/video/episode-41-english-transcript.md) · [English captions](./docs/video/episode-41-english-captions.srt)
+
+The walkthrough uses desensitized demonstration records and distinguishes implemented local workflows, simulated interface checks, and external production integrations that still require live-provider verification.
+
 ## Why this project exists
 
 Airline sales teams need more than a dashboard. They need to connect route performance, blocked-seat cost, selling price, remaining inventory, and timing into decisions that can be reviewed before execution. This project demonstrates that workflow without connecting to a production OTA, payment system, or ticketing channel.

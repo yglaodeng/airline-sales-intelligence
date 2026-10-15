@@ -1,0 +1,1651 @@
+﻿1
+00:00:00,000 --> 00:00:03,975
+Over the past forty episodes, we've taken this system apart,
+
+2
+00:00:03,975 --> 00:00:06,143
+one real problem at a time.
+
+3
+00:00:06,143 --> 00:00:11,201
+Today, I'd like to bring those pieces back together—and show you how
+
+4
+00:00:11,201 --> 00:00:13,008
+they work as one journey.
+
+5
+00:00:13,008 --> 00:00:16,572
+Let me start with a question I hear all the time:
+
+6
+00:00:16,572 --> 00:00:19,488
+is there still a future in airline ticket sales?
+
+7
+00:00:19,488 --> 00:00:20,598
+I believe there is.
+
+8
+00:00:20,598 --> 00:00:23,928
+But it won't look like the business we used to know.
+
+9
+00:00:23,928 --> 00:00:28,357
+Simply selling whatever seats happen to be available is getting harder.
+
+10
+00:00:28,357 --> 00:00:33,188
+The real opportunity now is planning: knowing which route is worth taking
+
+11
+00:00:33,188 --> 00:00:38,019
+on, when to secure seats, and how to sell them without losing
+
+12
+00:00:38,019 --> 00:00:40,032
+control of inventory or profit.
+
+13
+00:00:40,032 --> 00:00:42,199
+That's why I built this system.
+
+14
+00:00:42,199 --> 00:00:45,913
+In this episode, I'd like to walk through it with you,
+
+15
+00:00:45,913 --> 00:00:49,008
+step by step, and explain why every part is there.
+
+16
+00:00:49,008 --> 00:00:54,887
+We will follow one complete business journey—from the first data source and
+
+17
+00:00:54,887 --> 00:00:59,862
+route decision, through procurement, daily planning, inventory, channels, pricing, orders, ticketing,
+
+18
+00:00:59,862 --> 00:01:02,576
+after-sales service, cash, and profit.
+
+19
+00:01:02,576 --> 00:01:07,550
+Along the way, I will show what each function is for,
+
+20
+00:01:07,550 --> 00:01:12,073
+where its data comes from, how the system uses it,
+
+21
+00:01:12,073 --> 00:01:17,500
+and how every result can be traced back when something goes wrong.
+
+22
+00:01:17,500 --> 00:01:21,926
+Now that the industry problem and the system goal are clear,
+
+23
+00:01:21,926 --> 00:01:26,353
+we can follow the order in which the business actually happens.
+
+24
+00:01:26,353 --> 00:01:31,181
+The first step is not to rush into a model or build
+
+25
+00:01:31,181 --> 00:01:31,986
+a dashboard.
+
+26
+00:01:31,986 --> 00:01:36,815
+It is to bring together the facts scattered across stores, ticketing, inventory,
+
+27
+00:01:36,815 --> 00:01:38,827
+after-sales service, and finance.
+
+28
+00:01:38,827 --> 00:01:42,851
+If the underlying data does not use the same definitions,
+
+29
+00:01:42,851 --> 00:01:47,679
+every later judgment about routes, inventory, and profit can be wrong from
+
+30
+00:01:47,679 --> 00:01:48,484
+the start.
+
+31
+00:01:48,484 --> 00:01:52,320
+The data may come from O.T.A.
+
+32
+00:01:52,320 --> 00:01:54,717
+store orders, G.D.S.
+
+33
+00:01:54,717 --> 00:02:00,471
+or supplier ticketing results, airline schedules and disruption notices, internal sales details,
+
+34
+00:02:00,471 --> 00:02:05,265
+inventory ledgers, customer-service tickets, and payment or settlement records.
+
+35
+00:02:05,265 --> 00:02:10,060
+Business users may also upload Excel or C.S.V.
+
+36
+00:02:10,060 --> 00:02:10,539
+files.
+
+37
+00:02:10,539 --> 00:02:16,293
+The system first standardizes the route, flight, departure date, amount, order number,
+
+38
+00:02:16,293 --> 00:02:17,731
+and inventory batch.
+
+39
+00:02:17,731 --> 00:02:22,526
+It then checks for missing fields, format errors, duplicate records,
+
+40
+00:02:22,526 --> 00:02:23,965
+and failed links.
+
+41
+00:02:23,965 --> 00:02:29,718
+Data that fails validation remains at the intake gate and cannot carry
+
+42
+00:02:29,718 --> 00:02:31,636
+an error further downstream.
+
+43
+00:02:31,636 --> 00:02:36,499
+Only after intake is complete does the cockpit have a trustworthy base
+
+44
+00:02:36,499 --> 00:02:36,905
+table.
+
+45
+00:02:36,905 --> 00:02:41,768
+It brings opportunities, risks, pending work, and exceptions into one operating view,
+
+46
+00:02:41,768 --> 00:02:46,226
+while allowing every indicator to trace back to its source record.
+
+47
+00:02:46,226 --> 00:02:50,684
+At this point, we do not yet have a procurement decision.
+
+48
+00:02:50,684 --> 00:02:55,548
+We have a factual base from which a decision can be made.
+
+49
+00:02:55,548 --> 00:03:00,411
+The next step is to use those facts to answer the first
+
+50
+00:03:00,411 --> 00:03:03,248
+operating question: which routes are worth pursuing?
+
+51
+00:03:03,248 --> 00:03:08,324
+With a unified data base, the system can make its first decision.
+
+52
+00:03:08,324 --> 00:03:13,399
+Planned pre-purchase cannot begin by asking how many seats to buy.
+
+53
+00:03:13,399 --> 00:03:17,206
+It must first confirm which routes have sustained demand,
+
+54
+00:03:17,206 --> 00:03:21,858
+which departure dates concentrate that demand, what prices the market accepts,
+
+55
+00:03:21,858 --> 00:03:26,934
+whether supply is stable, and how much cost the team can carry.
+
+56
+00:03:26,934 --> 00:03:30,740
+Deciding whether a route is worth operating comes first,
+
+57
+00:03:30,740 --> 00:03:35,816
+because experience alone can lead either to unsold inventory or missed opportunities.
+
+58
+00:03:35,816 --> 00:03:41,794
+This stage reuses the orders, issued tickets, cancellations, and refunds standardized in
+
+59
+00:03:41,794 --> 00:03:43,289
+the previous chapter.
+
+60
+00:03:43,289 --> 00:03:48,768
+It also adds price and supply information from G.D.S.
+
+61
+00:03:48,768 --> 00:03:51,259
+sources, airlines, O.T.A.
+
+62
+00:03:51,259 --> 00:03:57,237
+platforms, and suppliers, together with demand calendars for holidays, exhibitions, school terms,
+
+63
+00:03:57,237 --> 00:03:58,732
+and other events.
+
+64
+00:03:58,732 --> 00:04:05,208
+The system aligns them by route, departure date, and advance-sales day to
+
+65
+00:04:05,208 --> 00:04:10,688
+produce demand curves, price bands, supply-stability indicators, and risk warnings.
+
+66
+00:04:10,688 --> 00:04:15,848
+This stage must deliver four explicit outcomes: whether to operate the route,
+
+67
+00:04:15,848 --> 00:04:19,717
+when to secure seats, how many seats to secure,
+
+68
+00:04:19,717 --> 00:04:22,297
+and the maximum acceptable procurement cost.
+
+69
+00:04:22,297 --> 00:04:27,457
+The procurement direction becomes valid only after a person confirms all four.
+
+70
+00:04:27,457 --> 00:04:31,327
+Once the route and total resource volume are fixed,
+
+71
+00:04:31,327 --> 00:04:36,486
+the question changes from whether to operate to how this block of
+
+72
+00:04:36,486 --> 00:04:40,356
+seats should be sold on every day before departure.
+
+73
+00:04:40,356 --> 00:04:44,414
+Once the route, procurement quantity, and cost are confirmed,
+
+74
+00:04:44,414 --> 00:04:48,472
+the system must move beyond a total-volume decision.
+
+75
+00:04:48,472 --> 00:04:53,883
+Thirty days, fifteen days, and three days before departure require very different
+
+76
+00:04:53,883 --> 00:04:57,040
+pricing, sales-speed, and inventory-protection strategies.
+
+77
+00:04:57,040 --> 00:05:01,549
+The sales model turns the procurement conclusion into daily targets,
+
+78
+00:05:01,549 --> 00:05:06,058
+so the team knows how many seats to sell today,
+
+79
+00:05:06,058 --> 00:05:10,116
+at what price, and how much inventory to protect.
+
+80
+00:05:10,116 --> 00:05:14,916
+The model takes the procurement quantity and cost, flight date,
+
+81
+00:05:14,916 --> 00:05:20,196
+historical sales curve, current transaction price, market quotes, channel order progress,
+
+82
+00:05:20,196 --> 00:05:23,556
+cancellations and refunds, and the target profit.
+
+83
+00:05:23,556 --> 00:05:29,316
+For every departure date, the system creates a daily sales calendar with
+
+84
+00:05:29,316 --> 00:05:34,116
+a volume target, reference price, protected inventory, and priority channels.
+
+85
+00:05:34,116 --> 00:05:38,916
+Each target is assigned to a date and an owner.
+
+86
+00:05:38,916 --> 00:05:44,574
+Actual daily sales, transaction prices, and remaining inventory return to the same
+
+87
+00:05:44,574 --> 00:05:45,046
+plan.
+
+88
+00:05:45,046 --> 00:05:50,704
+The system compares plan with reality and determines whether the gap comes
+
+89
+00:05:50,704 --> 00:05:54,948
+from changing demand, an excessive price, insufficient inventory allocation,
+
+90
+00:05:54,948 --> 00:05:56,834
+or weak channel execution.
+
+91
+00:05:56,834 --> 00:06:01,549
+The sales calendar is therefore not created once and forgotten;
+
+92
+00:06:01,549 --> 00:06:04,378
+it is recalibrated with real outcomes.
+
+93
+00:06:04,378 --> 00:06:10,037
+When a gap appears, the team still needs to know what action
+
+94
+00:06:10,037 --> 00:06:14,752
+to take, which leads to deeper analysis and scenario comparison.
+
+95
+00:06:14,752 --> 00:06:19,276
+The daily plan shows where performance has moved away from target,
+
+96
+00:06:19,276 --> 00:06:24,211
+but a gap does not automatically mean the price should be cut.
+
+97
+00:06:24,211 --> 00:06:29,146
+Slow sales may come from the price, a channel that has not
+
+98
+00:06:29,146 --> 00:06:34,492
+opened enough volume, incorrectly allocated inventory, or even a flight-time change that
+
+99
+00:06:34,492 --> 00:06:35,725
+has weakened demand.
+
+100
+00:06:35,725 --> 00:06:39,427
+Deep analysis takes the deviation from the previous stage,
+
+101
+00:06:39,427 --> 00:06:43,128
+brings the related factors together, explains the cause first,
+
+102
+00:06:43,128 --> 00:06:45,184
+and then proposes an action.
+
+103
+00:06:45,184 --> 00:06:49,514
+The system takes the demand window from route strategy,
+
+104
+00:06:49,514 --> 00:06:55,287
+cost and remaining seats from procurement and inventory, sales progress from orders,
+
+105
+00:06:55,287 --> 00:06:59,136
+and market prices from fare and comparison modules.
+
+106
+00:06:59,136 --> 00:07:04,909
+It then applies minimum-profit, price-limit, sales-prohibition, and approval rules.
+
+107
+00:07:04,909 --> 00:07:10,682
+Desensitized and structured data may enter intelligent analysis, but every recommendation must
+
+108
+00:07:10,682 --> 00:07:16,456
+include its reasoning: why seats should be added, a price protected or
+
+109
+00:07:16,456 --> 00:07:20,786
+reduced, a channel adjusted, or the sales pace changed,
+
+110
+00:07:20,786 --> 00:07:25,597
+and how the action may affect volume, revenue, gross profit,
+
+111
+00:07:25,597 --> 00:07:27,040
+and inventory clearance.
+
+112
+00:07:27,040 --> 00:07:29,851
+Recommendations enter a review area first.
+
+113
+00:07:29,851 --> 00:07:34,067
+Historical backtesting or scenario comparison shows the possible outcome,
+
+114
+00:07:34,067 --> 00:07:39,688
+and only after a business user confirms the choice does it become
+
+115
+00:07:39,688 --> 00:07:41,093
+an executable task.
+
+116
+00:07:41,093 --> 00:07:46,714
+The system has now converted a detected gap into a proposed action.
+
+117
+00:07:46,714 --> 00:07:52,336
+The next question is whether real seat inventory exists to execute that
+
+118
+00:07:52,336 --> 00:07:57,020
+action, so the business chain naturally moves into inventory preparation.
+
+119
+00:07:57,020 --> 00:08:02,473
+The strategy may define how to sell, but it can only be
+
+120
+00:08:02,473 --> 00:08:05,654
+executed when the inventory base is true.
+
+121
+00:08:05,654 --> 00:08:11,107
+After procurement is confirmed, seats move from a contract or quotation into
+
+122
+00:08:11,107 --> 00:08:12,470
+managed sales resources.
+
+123
+00:08:12,470 --> 00:08:17,924
+The system must know the route, flight, date, and booking class for
+
+124
+00:08:17,924 --> 00:08:23,377
+every inventory batch, together with how many seats are occupied, sold, allocated,
+
+125
+00:08:23,377 --> 00:08:24,740
+and still available.
+
+126
+00:08:24,740 --> 00:08:31,305
+Initial inventory may come from an airline or supplier seat-block confirmation,
+
+127
+00:08:31,305 --> 00:08:37,323
+a procurement contract, a P.N.R., or an allocation list.
+
+128
+00:08:37,323 --> 00:08:42,247
+A procurement user may also enter it after confirmation.
+
+129
+00:08:42,247 --> 00:08:46,623
+Orders and issued tickets create holds and deductions.
+
+130
+00:08:46,623 --> 00:08:52,094
+Cancellations, refunds, exchanges, and procurement adjustments release or transfer seats.
+
+131
+00:08:52,094 --> 00:08:58,659
+Group business also contributes group requests, confirmed passenger counts, and internal allocations.
+
+132
+00:08:58,659 --> 00:09:04,677
+The system creates seat-block inventory by flight and procurement batch,
+
+133
+00:09:04,677 --> 00:09:10,148
+while group inventory separately records applications, confirmations, allocations, and balances.
+
+134
+00:09:10,148 --> 00:09:12,972
+Every inventory change creates a ledger entry.
+
+135
+00:09:12,972 --> 00:09:17,813
+The system uses those entries to calculate the true sellable quantity and
+
+136
+00:09:17,813 --> 00:09:21,847
+raises warnings when too many seats remain close to departure,
+
+137
+00:09:21,847 --> 00:09:26,285
+when seats are allocated twice, or when allocation approaches the limit.
+
+138
+00:09:26,285 --> 00:09:31,126
+The seat resource is now ready, but the system still cannot accept
+
+139
+00:09:31,126 --> 00:09:35,564
+an order until it knows where the inventory will be sold,
+
+140
+00:09:35,564 --> 00:09:39,598
+who owns the order, and who will issue the ticket.
+
+141
+00:09:39,598 --> 00:09:43,632
+The next stage is therefore stores, channels, and ticketing routes.
+
+142
+00:09:43,632 --> 00:09:46,131
+Inventory answers what can be sold.
+
+143
+00:09:46,131 --> 00:09:49,878
+Stores and channels answer where it will be sold,
+
+144
+00:09:49,878 --> 00:09:53,626
+who receives the order, and who issues the ticket.
+
+145
+00:09:53,626 --> 00:09:58,207
+The same ticket may be sold through several O.T.A.
+
+146
+00:09:58,207 --> 00:10:03,204
+stores, direct channels, or corporate customers, and it may be issued by
+
+147
+00:10:03,204 --> 00:10:04,037
+different suppliers.
+
+148
+00:10:04,037 --> 00:10:09,034
+If an order has only a number but no source, settlement relationship,
+
+149
+00:10:09,034 --> 00:10:14,448
+or owner, ticketing, after-sales service, and reconciliation will all become mixed together.
+
+150
+00:10:14,448 --> 00:10:20,873
+Store and account data comes from platform onboarding records and internal account
+
+151
+00:10:20,873 --> 00:10:21,409
+lists.
+
+152
+00:10:21,409 --> 00:10:27,834
+Channel, supplier, settlement-policy, and service-hour data comes from cooperation agreements.
+
+153
+00:10:27,834 --> 00:10:33,188
+Contacts come from customer, supplier, platform, and internal role directories.
+
+154
+00:10:33,188 --> 00:10:39,078
+Ticketing routes combine the airline, route, booking class, price policy, cost,
+
+155
+00:10:39,078 --> 00:10:40,684
+and handling priority.
+
+156
+00:10:40,684 --> 00:10:47,110
+The system turns these records into stable mappings so an incoming order
+
+157
+00:10:47,110 --> 00:10:52,464
+can immediately identify its source, responsibility relationship, and processing path.
+
+158
+00:10:52,464 --> 00:10:56,554
+Orders that meet automatic-ticketing conditions enter the corresponding queue.
+
+159
+00:10:56,554 --> 00:11:01,054
+Orders requiring judgment enter a work list with complete supporting data.
+
+160
+00:11:01,054 --> 00:11:05,962
+When an exception occurs, the service ticket can reach the responsible person
+
+161
+00:11:05,962 --> 00:11:06,371
+directly.
+
+162
+00:11:06,371 --> 00:11:11,280
+We now know who handles the order, but we must still determine
+
+163
+00:11:11,280 --> 00:11:16,188
+which policy applies, what the true cost is, and what selling price
+
+164
+00:11:16,188 --> 00:11:17,416
+should be used.
+
+165
+00:11:17,416 --> 00:11:22,324
+Otherwise, the route may be correct while the quote is still wrong.
+
+166
+00:11:22,324 --> 00:11:27,737
+An order with a source and a handling path still cannot be
+
+167
+00:11:27,737 --> 00:11:32,698
+completed immediately, because an airline price is not an isolated number.
+
+168
+00:11:32,698 --> 00:11:38,111
+Taxes, incentives, booking class, applicable dates, sales restrictions, and exchange or refund
+
+169
+00:11:38,111 --> 00:11:40,817
+rules all change the true cost.
+
+170
+00:11:40,817 --> 00:11:45,328
+The policy and fare modules use the earlier route, inventory,
+
+171
+00:11:45,328 --> 00:11:50,741
+and channel information to determine whether a quote is valid and whether
+
+172
+00:11:50,741 --> 00:11:52,996
+the sale can preserve profit.
+
+173
+00:11:52,996 --> 00:11:59,036
+Policies may come from airline and supplier documents, email, back-office notices,
+
+174
+00:11:59,036 --> 00:12:00,546
+or formal interfaces.
+
+175
+00:12:00,546 --> 00:12:04,573
+Fares and taxes come from G.D.S.
+
+176
+00:12:04,573 --> 00:12:08,097
+sources, airlines, suppliers, and O.T.A.
+
+177
+00:12:08,097 --> 00:12:08,600
+searches.
+
+178
+00:12:08,600 --> 00:12:12,123
+Market prices come from authorized comparison tasks.
+
+179
+00:12:12,123 --> 00:12:18,164
+Internal procurement cost, target profit, minimum selling price, and sellable inventory define
+
+180
+00:12:18,164 --> 00:12:19,674
+the operating boundary.
+
+181
+00:12:19,674 --> 00:12:25,714
+The system converts written policies into computable conditions and converts quotes from
+
+182
+00:12:25,714 --> 00:12:30,244
+different sources into complete costs that can be compared.
+
+183
+00:12:30,244 --> 00:12:36,224
+During quoting, ordering, and ticketing, the system checks whether the policy applies.
+
+184
+00:12:36,224 --> 00:12:42,205
+When market prices change, it combines inventory progress with the profit floor
+
+185
+00:12:42,205 --> 00:12:48,185
+to generate a repricing recommendation, while preserving the supporting evidence and approval
+
+186
+00:12:48,185 --> 00:12:48,684
+result.
+
+187
+00:12:48,684 --> 00:12:52,671
+The customer, processor, and price are now determined.
+
+188
+00:12:52,671 --> 00:12:58,651
+The strategy must next enter a real order and complete ticketing and
+
+189
+00:12:58,651 --> 00:12:59,648
+ticket verification.
+
+190
+00:12:59,648 --> 00:13:05,858
+Route decisions, sales plans, inventory, channels, and prices must eventually become business
+
+191
+00:13:05,858 --> 00:13:06,375
+execution.
+
+192
+00:13:06,375 --> 00:13:12,585
+A recommendation without an owner, deadline, and returned result remains only a
+
+193
+00:13:12,585 --> 00:13:13,102
+recommendation.
+
+194
+00:13:13,102 --> 00:13:19,312
+An order that cannot show whether it is waiting for payment, ticketing,
+
+195
+00:13:19,312 --> 00:13:22,934
+or verification cannot support a customer commitment.
+
+196
+00:13:22,934 --> 00:13:29,144
+Strategy tasks and the order center turn earlier decisions into traceable actions.
+
+197
+00:13:29,144 --> 00:13:34,119
+Strategy tasks come from route, model, repricing, and inventory modules.
+
+198
+00:13:34,119 --> 00:13:37,104
+Orders come from O.T.A.
+
+199
+00:13:37,104 --> 00:13:41,084
+stores, direct channels, corporate customers, or manual entry.
+
+200
+00:13:41,084 --> 00:13:45,063
+Passenger and itinerary information comes from booking data.
+
+201
+00:13:45,063 --> 00:13:49,043
+Payment status comes from payment or settlement systems.
+
+202
+00:13:49,043 --> 00:13:56,008
+P.N.R.s, ticket numbers, and issuance results come from G.D.S.
+
+203
+00:13:56,008 --> 00:13:58,993
+sources, airlines, suppliers, or ticketing staff.
+
+204
+00:13:58,993 --> 00:14:04,963
+The system assigns a unique identifier to every task and order and
+
+205
+00:14:04,963 --> 00:14:09,440
+records its evidence, owner, deadline, and every status change.
+
+206
+00:14:09,440 --> 00:14:13,897
+The order enters the queue selected by the ticketing route.
+
+207
+00:14:13,897 --> 00:14:16,571
+After issuance, the P.N.R.
+
+208
+00:14:16,571 --> 00:14:21,919
+and ticket number are written back, and the verification module checks the
+
+209
+00:14:21,919 --> 00:14:25,484
+order, passenger, flight, and ticket against one another.
+
+210
+00:14:25,484 --> 00:14:30,833
+Missing data, channel failure, processing timeout, or a ticket mismatch immediately moves
+
+211
+00:14:30,833 --> 00:14:33,061
+the case into exception handling.
+
+212
+00:14:33,061 --> 00:14:38,409
+This completes the path from plan to ticketing, but the chain is
+
+213
+00:14:38,409 --> 00:14:43,757
+not over because a delivered ticket may still face a schedule change,
+
+214
+00:14:43,757 --> 00:14:45,540
+exchange, cancellation, or refund.
+
+215
+00:14:45,540 --> 00:14:51,045
+An issued ticket completes the first delivery, but it does not establish
+
+216
+00:14:51,045 --> 00:14:52,880
+the final business result.
+
+217
+00:14:52,880 --> 00:14:57,009
+A schedule change may require notification, rebooking, or refund.
+
+218
+00:14:57,009 --> 00:15:02,514
+A cancellation changes the ticket, inventory, revenue, and cost at the same
+
+219
+00:15:02,514 --> 00:15:02,973
+time.
+
+220
+00:15:02,973 --> 00:15:08,936
+The after-sales module carries the original order and ticket number forward so
+
+221
+00:15:08,936 --> 00:15:13,524
+every later change remains attached to the same business transaction.
+
+222
+00:15:13,524 --> 00:15:17,582
+Disruption information comes from airlines, G.D.S.
+
+223
+00:15:17,582 --> 00:15:20,626
+sources, supplier notices, or manual confirmation.
+
+224
+00:15:20,626 --> 00:15:26,206
+Exchange and refund requests come from customers, stores, and service teams.
+
+225
+00:15:26,206 --> 00:15:31,786
+Applicable rules come from the original fare policy and supplier conditions.
+
+226
+00:15:31,786 --> 00:15:37,873
+Refunds, fees, receivables, and cash received come from payment platforms, settlement statements,
+
+227
+00:15:37,873 --> 00:15:40,409
+bank transactions, and finance updates.
+
+228
+00:15:40,409 --> 00:15:45,989
+The original order provides the passenger, flight, ticket number, selling price,
+
+229
+00:15:45,989 --> 00:15:51,569
+and procurement cost, allowing the system to decide whom to notify,
+
+230
+00:15:51,569 --> 00:15:57,657
+which solution to execute, how much to refund, and who owns the
+
+231
+00:15:57,657 --> 00:15:58,164
+work.
+
+232
+00:15:58,164 --> 00:16:04,882
+The system links every disruption and after-sales ticket back to the original
+
+233
+00:16:04,882 --> 00:16:10,050
+order and continuously records notifications, proposed solutions, owners, refund progress,
+
+234
+00:16:10,050 --> 00:16:11,600
+and final outcomes.
+
+235
+00:16:11,600 --> 00:16:17,801
+The finance module then aggregates sales, procurement cost, taxes, fees, refunds, receivables,
+
+236
+00:16:17,801 --> 00:16:19,352
+and cash received.
+
+237
+00:16:19,352 --> 00:16:25,553
+It distinguishes estimated, confirmed, and paid states and calculates the real profit
+
+238
+00:16:25,553 --> 00:16:28,137
+for the order and route.
+
+239
+00:16:28,137 --> 00:16:34,855
+The after-sales state has returned to the order, but one question remains:
+
+240
+00:16:34,855 --> 00:16:41,056
+after a cancellation or refund, was the corresponding inventory released as well?
+
+241
+00:16:41,056 --> 00:16:44,650
+The previous chapter changed order and ticket states.
+
+242
+00:16:44,650 --> 00:16:50,040
+This chapter ensures that the change does not stop on the order
+
+243
+00:16:50,040 --> 00:16:50,489
+page.
+
+244
+00:16:50,489 --> 00:16:55,430
+If an order occupies a seat but inventory is not reduced,
+
+245
+00:16:55,430 --> 00:16:57,227
+the system may oversell.
+
+246
+00:16:57,227 --> 00:17:02,617
+If a cancelled order does not release inventory, a sellable seat becomes
+
+247
+00:17:02,617 --> 00:17:03,067
+unavailable.
+
+248
+00:17:03,067 --> 00:17:08,457
+Order and inventory synchronization must therefore answer exactly which order changed which
+
+249
+00:17:08,457 --> 00:17:11,152
+inventory batch, and at what time.
+
+250
+00:17:11,152 --> 00:17:17,239
+The link uses the order number, inventory batch, flight date, booking class,
+
+251
+00:17:17,239 --> 00:17:22,312
+passenger count, order status, ticketing status, and cancellation, refund, exchange,
+
+252
+00:17:22,312 --> 00:17:24,341
+and external callback events.
+
+253
+00:17:24,341 --> 00:17:30,429
+These inputs come from the order center, ticketing result, after-sales ticket,
+
+254
+00:17:30,429 --> 00:17:32,965
+channel interface, and inventory ledger.
+
+255
+00:17:32,965 --> 00:17:39,053
+The system performs a hold, deduction, release, or transfer according to the
+
+256
+00:17:39,053 --> 00:17:45,140
+business state, and uses an event identifier to recognize duplicate callbacks so
+
+257
+00:17:45,140 --> 00:17:48,184
+the same action cannot run twice.
+
+258
+00:17:48,184 --> 00:17:51,542
+Every change produces an inventory ledger entry.
+
+259
+00:17:51,542 --> 00:17:57,778
+Front-end sellable quantity is aggregated from that ledger, and an operator can
+
+260
+00:17:57,778 --> 00:18:01,136
+trace the specific order, time, and action.
+
+261
+00:18:01,136 --> 00:18:06,413
+A single order now forms a closed loop across ordering, ticketing,
+
+262
+00:18:06,413 --> 00:18:09,291
+after-sales service, inventory, and finance.
+
+263
+00:18:09,291 --> 00:18:15,047
+The next step moves beyond one transaction and aggregates all business for
+
+264
+00:18:15,047 --> 00:18:20,324
+the day to determine whether overall operations have deviated from plan.
+
+265
+00:18:20,324 --> 00:18:25,123
+After a single order closes its loop, management must return to the
+
+266
+00:18:25,123 --> 00:18:26,322
+full operating picture.
+
+267
+00:18:26,322 --> 00:18:31,121
+At the end of a day, the number of tickets sold is
+
+268
+00:18:31,121 --> 00:18:31,921
+not enough.
+
+269
+00:18:31,921 --> 00:18:36,320
+The team must know whether sales were timely, inventory is healthy,
+
+270
+00:18:36,320 --> 00:18:41,119
+refunds are increasing, cash has arrived, and profit has met the target.
+
+271
+00:18:41,119 --> 00:18:45,917
+Operating statistics take the results of the earlier modules and answer two
+
+272
+00:18:45,917 --> 00:18:50,716
+questions: where did we deviate today, and what should we change first
+
+273
+00:18:50,716 --> 00:18:51,116
+tomorrow?
+
+274
+00:18:51,116 --> 00:18:56,538
+The system aggregates route strategy, sales plans, channel orders, ticketing time,
+
+275
+00:18:56,538 --> 00:19:00,482
+inventory ledgers, after-sales refunds, cash, and profit.
+
+276
+00:19:00,482 --> 00:19:03,933
+Planned targets come from the sales model.
+
+277
+00:19:03,933 --> 00:19:08,369
+Actual outcomes come from order, ticketing, and finance records.
+
+278
+00:19:08,369 --> 00:19:13,792
+Exception causes come from tasks, work tickets, and the operating process.
+
+279
+00:19:13,792 --> 00:19:19,707
+Because the same flight, inventory batch, order, and ticket identifiers were used
+
+280
+00:19:19,707 --> 00:19:25,622
+throughout, an aggregate can still drill down to its source record instead
+
+281
+00:19:25,622 --> 00:19:28,580
+of ending at a single number.
+
+282
+00:19:28,580 --> 00:19:34,784
+The nightly review compares plan and reality by route, store, channel, date,
+
+283
+00:19:34,784 --> 00:19:35,818
+and owner.
+
+284
+00:19:35,818 --> 00:19:40,471
+It identifies demand, price, channel, inventory, and execution problems,
+
+285
+00:19:40,471 --> 00:19:46,158
+then generates tomorrow's tasks for adding supply, repricing, clearing inventory,
+
+286
+00:19:46,158 --> 00:19:49,260
+chasing ticket issuance, and collecting receivables.
+
+287
+00:19:49,260 --> 00:19:54,947
+Operating results now feed back into the next day's plan.
+
+288
+00:19:54,947 --> 00:19:59,600
+But as more users view, change, and export data,
+
+289
+00:19:59,600 --> 00:20:05,804
+the system must also control who may perform each action and whether
+
+290
+00:20:05,804 --> 00:20:07,872
+every action remains traceable.
+
+291
+00:20:07,872 --> 00:20:13,581
+Once the business chain is running, risk comes not only from business
+
+292
+00:20:13,581 --> 00:20:16,435
+decisions but also from system use.
+
+293
+00:20:16,435 --> 00:20:19,766
+Who can view, edit, approve, or export?
+
+294
+00:20:19,766 --> 00:20:23,571
+Can data be recovered after an operational mistake?
+
+295
+00:20:23,571 --> 00:20:26,902
+These questions directly affect every earlier feature.
+
+296
+00:20:26,902 --> 00:20:31,659
+Permissions, export, cleanup, and logs are therefore not secondary pages;
+
+297
+00:20:31,659 --> 00:20:37,368
+they form the governance layer that keeps the system operating over time.
+
+298
+00:20:37,368 --> 00:20:43,574
+Employee, role, organization, and account-validity data determine the access scope.
+
+299
+00:20:43,574 --> 00:20:50,908
+Strategy, inventory, order, ticket, after-sales, and finance data determine the objects that
+
+300
+00:20:50,908 --> 00:20:53,164
+can be acted upon.
+
+301
+00:20:53,164 --> 00:20:59,934
+Login, query, modification, approval, execution, export, and cleanup actions create audit records.
+
+302
+00:20:59,934 --> 00:21:06,140
+The system restricts view, edit, approval, and execution permissions by role.
+
+303
+00:21:06,140 --> 00:21:11,218
+An export keeps its filter conditions and generation record.
+
+304
+00:21:11,218 --> 00:21:17,988
+A cleanup displays the affected scope and requires the corresponding authorization before
+
+305
+00:21:17,988 --> 00:21:19,680
+it can continue.
+
+306
+00:21:19,680 --> 00:21:25,486
+Critical operations record the account, time, object, state before and after the
+
+307
+00:21:25,486 --> 00:21:27,421
+change, and final result.
+
+308
+00:21:27,421 --> 00:21:33,226
+This supports collaboration and handover while also allowing the team to identify
+
+309
+00:21:33,226 --> 00:21:37,097
+responsibility and recover data when an exception occurs.
+
+310
+00:21:37,097 --> 00:21:42,902
+Only after internal data, process, and permission boundaries are clear is the
+
+311
+00:21:42,902 --> 00:21:48,224
+system ready to exchange real outcomes with airlines, G.D.S.
+
+312
+00:21:48,224 --> 00:21:50,643
+providers, suppliers, O.T.A.
+
+313
+00:21:50,643 --> 00:21:52,578
+platforms, and payment services.
+
+314
+00:21:52,578 --> 00:21:56,932
+That is the role of the external interface layer.
+
+315
+00:21:56,932 --> 00:22:01,473
+The earlier modules control how the system decides and acts internally,
+
+316
+00:22:01,473 --> 00:22:06,014
+but the final result in aviation often occurs outside the system.
+
+317
+00:22:06,014 --> 00:22:10,967
+A page that says ticket issued does not prove that the airline
+
+318
+00:22:10,967 --> 00:22:13,444
+or supplier actually issued a ticket.
+
+319
+00:22:13,444 --> 00:22:18,398
+A page that says refunded does not prove that cash has arrived.
+
+320
+00:22:18,398 --> 00:22:23,351
+The external interface layer sends internal orders and tasks outward and brings
+
+321
+00:22:23,351 --> 00:22:25,828
+formal results back into the system.
+
+322
+00:22:25,828 --> 00:22:33,645
+Integration materials come from the other party's official interface documentation, field dictionary,
+
+323
+00:22:33,645 --> 00:22:39,657
+account authorization, key or certificate, test environment, and callback specification.
+
+324
+00:22:39,657 --> 00:22:46,873
+Business data comes from search, ordering, ticketing, refund, payment, and notification interfaces.
+
+325
+00:22:46,873 --> 00:22:53,487
+Runtime evidence includes request identifiers, response codes, callback content, failure reasons,
+
+326
+00:22:53,487 --> 00:22:55,892
+and external-platform states.
+
+327
+00:22:55,892 --> 00:23:03,107
+An adapter converts different external fields into one internal object and handles
+
+328
+00:23:03,107 --> 00:23:10,323
+authentication, requests, callbacks, retries, monitoring, and transfer to a person when automation
+
+329
+00:23:10,323 --> 00:23:10,924
+fails.
+
+330
+00:23:10,924 --> 00:23:16,563
+External order numbers, ticket numbers, prices, and payment results are written back
+
+331
+00:23:16,563 --> 00:23:22,672
+to the original business record and continue to drive inventory, after-sales service,
+
+332
+00:23:22,672 --> 00:23:23,612
+and finance.
+
+333
+00:23:23,612 --> 00:23:29,251
+Without a formal response, the state may only remain processing or pending
+
+334
+00:23:29,251 --> 00:23:29,721
+verification.
+
+335
+00:23:29,721 --> 00:23:33,950
+Every feature now has its own input and output,
+
+336
+00:23:33,950 --> 00:23:39,589
+but the outputs still have to be proven as one continuous transaction.
+
+337
+00:23:39,589 --> 00:23:44,288
+The next stage uses one case to connect every feature.
+
+338
+00:23:44,288 --> 00:23:48,835
+If every page uses a different route, inventory batch, and order,
+
+339
+00:23:48,835 --> 00:23:53,796
+each feature may appear to produce a result while the full system
+
+340
+00:23:53,796 --> 00:23:55,449
+proves nothing about continuity.
+
+341
+00:23:55,449 --> 00:24:01,236
+The purpose of an end-to-end case is to place the outputs of
+
+342
+00:24:01,236 --> 00:24:04,543
+the first fourteen chapters into one business chain.
+
+343
+00:24:04,543 --> 00:24:09,504
+The same route, flight, inventory batch, and order must keep the same
+
+344
+00:24:09,504 --> 00:24:11,984
+business identifiers from beginning to end.
+
+345
+00:24:11,984 --> 00:24:17,876
+The case starts with historical sales, market prices, and procurement quotes to
+
+346
+00:24:17,876 --> 00:24:21,313
+create a route decision and procurement plan.
+
+347
+00:24:21,313 --> 00:24:27,205
+After procurement is confirmed, the system establishes inventory and a daily sales
+
+348
+00:24:27,205 --> 00:24:31,133
+plan, then links stores, channels, policies, and fares.
+
+349
+00:24:31,133 --> 00:24:36,534
+An incoming order creates a seat hold, ticket issuance, and verification.
+
+350
+00:24:36,534 --> 00:24:42,427
+A schedule change or refund is then introduced so the team can
+
+351
+00:24:42,427 --> 00:24:47,337
+observe the resulting changes in inventory, refunds, cash, and profit.
+
+352
+00:24:47,337 --> 00:24:52,738
+The source material may come from historical spreadsheets, airlines and suppliers,
+
+353
+00:24:52,738 --> 00:24:58,630
+sales platforms, ticketing systems, customer service, and finance, but once it enters
+
+354
+00:24:58,630 --> 00:25:04,031
+the system it must be linked by flight, inventory batch, order,
+
+355
+00:25:04,031 --> 00:25:05,504
+and ticket identifiers.
+
+356
+00:25:05,504 --> 00:25:11,255
+Finally, operating statistics aggregate the plan, execution, exceptions, and outcome for the
+
+357
+00:25:11,255 --> 00:25:12,213
+same case.
+
+358
+00:25:12,213 --> 00:25:16,527
+Audit logs prove who completed each action and when.
+
+359
+00:25:16,527 --> 00:25:20,840
+We can now see whether the features truly connect.
+
+360
+00:25:20,840 --> 00:25:26,111
+Yet running the chain once is still not enough for delivery.
+
+361
+00:25:26,111 --> 00:25:30,425
+Final acceptance must test the normal path, exception paths,
+
+362
+00:25:30,425 --> 00:25:33,300
+and state continuity after a restart.
+
+363
+00:25:33,300 --> 00:25:38,552
+Once one case has connected all features, final acceptance no longer checks
+
+364
+00:25:38,552 --> 00:25:40,302
+buttons page by page.
+
+365
+00:25:40,302 --> 00:25:45,554
+It checks whether the whole business can move from input to result.
+
+366
+00:25:45,554 --> 00:25:50,805
+The acceptance standard has three parts: the normal business path completes end
+
+367
+00:25:50,805 --> 00:25:56,057
+to end, invalid data or external failures are stopped at the correct
+
+368
+00:25:56,057 --> 00:26:01,308
+point, and data, tasks, and states remain consistent after the system restarts.
+
+369
+00:26:01,308 --> 00:26:07,900
+The normal path uses a desensitized but complete business sample covering route,
+
+370
+00:26:07,900 --> 00:26:12,843
+procurement, inventory, order, ticket, after-sales service, and finance.
+
+371
+00:26:12,843 --> 00:26:18,885
+Exception paths use a copy or test environment with missing fields,
+
+372
+00:26:18,885 --> 00:26:24,928
+insufficient inventory, out-of-range prices, channel failures, invalid ticket numbers,
+
+373
+00:26:24,928 --> 00:26:27,674
+and payments without a response.
+
+374
+00:26:27,674 --> 00:26:34,266
+Before each step, the expected input, action, state, and result are written
+
+375
+00:26:34,266 --> 00:26:34,815
+down.
+
+376
+00:26:34,815 --> 00:26:40,308
+The team then verifies quantities, amounts, owners, and external responses.
+
+377
+00:26:40,308 --> 00:26:46,288
+The system meets the delivery condition only when the normal chain completes,
+
+378
+00:26:46,288 --> 00:26:52,267
+the exception chain is stopped correctly, and every state remains traceable after
+
+379
+00:26:52,267 --> 00:26:52,765
+restart.
+
+380
+00:26:52,765 --> 00:26:58,745
+The functional order is now clear: standardize data, decide the route and
+
+381
+00:26:58,745 --> 00:27:04,724
+procurement plan, create sales plans and recommendations, prepare inventory and channel policies,
+
+382
+00:27:04,724 --> 00:27:10,206
+handle orders, ticketing, and after-sales service, synchronize inventory and finance,
+
+383
+00:27:10,206 --> 00:27:15,189
+and finally close the loop through review, governance, external responses,
+
+384
+00:27:15,189 --> 00:27:17,680
+and end-to-end acceptance.
+
+385
+00:27:17,680 --> 00:27:23,216
+Looking back at this chain, the system does not place a dozen
+
+386
+00:27:23,216 --> 00:27:25,061
+features side by side.
+
+387
+00:27:25,061 --> 00:27:30,597
+It makes the result of one step become the input of the
+
+388
+00:27:30,597 --> 00:27:31,059
+next.
+
+389
+00:27:31,059 --> 00:27:32,904
+Route decisions drive procurement.
+
+390
+00:27:32,904 --> 00:27:35,672
+Procurement creates inventory and sales plans.
+
+391
+00:27:35,672 --> 00:27:38,901
+Channels and policies make that inventory sellable.
+
+392
+00:27:38,901 --> 00:27:44,899
+Orders and tickets record real execution, and after-sales activity continues to change
+
+393
+00:27:44,899 --> 00:27:46,744
+inventory, cash, and profit.
+
+394
+00:27:46,744 --> 00:27:52,701
+Those results return to the operating review and create the next day's
+
+395
+00:27:52,701 --> 00:27:57,284
+tasks for adding supply, repricing, clearing inventory, chasing ticket issuance,
+
+396
+00:27:57,284 --> 00:27:58,658
+and collecting receivables.
+
+397
+00:27:58,658 --> 00:28:02,324
+Permissions and logs keep the whole process traceable.
+
+398
+00:28:02,324 --> 00:28:07,365
+External interfaces bring formal results from airlines, suppliers, O.T.A.
+
+399
+00:28:07,365 --> 00:28:11,031
+platforms, and payment services back into the system.
+
+400
+00:28:11,031 --> 00:28:16,530
+Every feature now has a defined position, and we can explain why
+
+401
+00:28:16,530 --> 00:28:21,112
+it must sit between the functions before and after it.
+
+402
+00:28:21,112 --> 00:28:26,616
+A valuable aviation intelligence system is not defined by the number of
+
+403
+00:28:26,616 --> 00:28:27,992
+pages or figures.
+
+404
+00:28:27,992 --> 00:28:31,203
+Every data item must have a source.
+
+405
+00:28:31,203 --> 00:28:33,955
+Every state must have an owner.
+
+406
+00:28:33,955 --> 00:28:37,166
+Every recommendation must become an actionable task.
+
+407
+00:28:37,166 --> 00:28:41,753
+Every result must trace back to the original business record.
+
+408
+00:28:41,753 --> 00:28:47,257
+From data intake to final acceptance, that is a complete operating loop
+
+409
+00:28:47,257 --> 00:28:50,468
+that people can understand, execute, and verify.
+
+410
+00:28:50,468 --> 00:28:54,818
+Thank you for following this series and for staying with me through
+
+411
+00:28:54,818 --> 00:28:56,269
+these forty-one episodes.
+
+412
+00:28:56,269 --> 00:28:59,894
+You are always welcome to reach out, share your thoughts,
+
+413
+00:28:59,894 --> 00:29:01,344
+or leave a comment.
